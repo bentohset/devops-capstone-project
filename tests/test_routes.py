@@ -122,8 +122,12 @@ class TestAccountService(TestCase):
             content_type="test/html"
         )
         self.assertEqual(response.status_code, status.HTTP_415_UNSUPPORTED_MEDIA_TYPE)
+    
+    def test_method_not_allowed(self):
+        response = self.client.delete(BASE_URL)
+        self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
 
-    # ADD YOUR TEST CASES HERE ...
+
     def test_read_an_account(self):
         account = self._create_accounts(1)[0]
         # make call to self.client.get()
@@ -165,4 +169,15 @@ class TestAccountService(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         updated_account = response.get_json()
-        self.assertEqual(updated_account["name"], "Testing")
+        self.assertEqual(updated_account["name"], "Testing")\
+
+    def test_list_accounts(self):
+        self._create_accounts(5)
+        response = self.client.get(
+            BASE_URL
+        )
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        data = response.get_json()
+
+        self.assertEqual(len(data), 5)
