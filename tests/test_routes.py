@@ -60,7 +60,7 @@ class TestAccountService(TestCase):
         for _ in range(count):
             account = AccountFactory()
             response = self.client.post(BASE_URL, json=account.serialize())
-            
+
             self.assertEqual(
                 response.status_code,
                 status.HTTP_201_CREATED,
@@ -193,7 +193,7 @@ class TestAccountService(TestCase):
         )
 
         updated_account = response.get_json()
-        self.assertEqual(updated_account["name"], "Testing")\
+        self.assertEqual(updated_account["name"], "Testing")
 
     def test_list_accounts(self):
         self._create_accounts(5)
