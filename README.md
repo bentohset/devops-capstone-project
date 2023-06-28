@@ -58,7 +58,7 @@ The labs use Postgres running in a Docker container. If for some reason the serv
 make db
 ```
 
-You can use the `docker ps` command to make sure that postgres is up and running.
+You can use the `docker ps` command to make sure that postgres is up and running.t
 
 ## Project layout
 
