@@ -60,6 +60,7 @@ class TestAccountService(TestCase):
         for _ in range(count):
             account = AccountFactory()
             response = self.client.post(BASE_URL, json=account.serialize())
+
             self.assertEqual(
                 response.status_code,
                 status.HTTP_201_CREATED,
@@ -77,7 +78,10 @@ class TestAccountService(TestCase):
     def test_index(self):
         """It should get 200_OK from the Home Page"""
         response = self.client.get("/")
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(
+            response.status_code,
+            status.HTTP_200_OK
+        )
 
     def test_health(self):
         """It should be healthy"""
@@ -94,7 +98,10 @@ class TestAccountService(TestCase):
             json=account.serialize(),
             content_type="application/json"
         )
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(
+            response.status_code,
+            status.HTTP_201_CREATED
+        )
 
         # Make sure location header is set
         location = response.headers.get("Location", None)
@@ -121,12 +128,17 @@ class TestAccountService(TestCase):
             json=account.serialize(),
             content_type="test/html"
         )
-        self.assertEqual(response.status_code, status.HTTP_415_UNSUPPORTED_MEDIA_TYPE)
-    
+        self.assertEqual(
+            response.status_code,
+            status.HTTP_415_UNSUPPORTED_MEDIA_TYPE
+        )
+
     def test_method_not_allowed(self):
         response = self.client.delete(BASE_URL)
-        self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
-
+        self.assertEqual(
+            response.status_code,
+            status.HTTP_405_METHOD_NOT_ALLOWED
+        )
 
     def test_read_an_account(self):
         account = self._create_accounts(1)[0]
@@ -136,7 +148,10 @@ class TestAccountService(TestCase):
             content_type="application/json"
         )
         # assert response is 200
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(
+            response.status_code,
+            status.HTTP_200_OK
+        )
 
         # get data from resp.get_json()
         data = response.get_json()
@@ -149,7 +164,10 @@ class TestAccountService(TestCase):
             content_type="application/json"
         )
 
-        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+        self.assertEqual(
+            response.status_code,
+            status.HTTP_404_NOT_FOUND
+        )
 
     def test_update_account(self):
         test_account = AccountFactory()
@@ -158,7 +176,10 @@ class TestAccountService(TestCase):
             BASE_URL,
             json=test_account.serialize(),
         )
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(
+            response.status_code,
+            status.HTTP_201_CREATED
+        )
 
         new_account = response.get_json()
         new_account["name"] = "Testing"
@@ -166,17 +187,24 @@ class TestAccountService(TestCase):
             f"{BASE_URL}/{new_account['id']}",
             json=new_account
         )
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(
+            response.status_code,
+            status.HTTP_200_OK
+        )
 
         updated_account = response.get_json()
-        self.assertEqual(updated_account["name"], "Testing")\
+        self.assertEqual(updated_account["name"], "Testing")
 
     def test_list_accounts(self):
         self._create_accounts(5)
+
         response = self.client.get(
             BASE_URL
         )
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(
+            response.status_code,
+            status.HTTP_200_OK
+        )
 
         data = response.get_json()
 
@@ -187,4 +215,7 @@ class TestAccountService(TestCase):
         response = self.client.delete(
             f"{BASE_URL}/{account.id}"
         )
-        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertEqual(
+            response.status_code,
+            status.HTTP_204_NO_CONTENT
+        )
