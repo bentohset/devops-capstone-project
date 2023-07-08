@@ -68,7 +68,7 @@ spec:
       type: string
       default: "sqlite:///test.db"
   steps:
-    - name: nosetests
+    - name: nosetest
       image: python:3.9-slim
       workingDir: $(workspaces.source.path)
       env:
@@ -81,6 +81,6 @@ spec:
         echo "***** Installing dependencies *****"
         python -m pip install --upgrade pip wheel
         pip install -qr requirements.txt
-        
+
         echo "***** Running nosetests with: $(params.args)"
         nosetests $(params.args)
